@@ -1,7 +1,7 @@
 title: Создать обёртку над Claude Agent SDK
-status: open
+status: done
 created_at: 07.02.2026
-completed_at: null
+completed_at: 07.02.2026
 
 description: |
   Нужен клиент, который принимает текст от пользователя,
@@ -28,4 +28,9 @@ recommendation: |
       - ~/.claude/scripts/ (reminders.sh и т.д.)
     - Собирает streaming ответ в строку и возвращает
 
-solution: null
+solution: |
+  Реализованы IAgentClient протокол и AgentClient класс.
+  AgentClient использует ClaudeSDKClient с BlockingPortal (anyio) для
+  sync-to-async моста. Хранит по одному ClaudeSDKClient на user_id
+  для сохранения контекста диалога. Собирает streaming TextBlock
+  ответы в строку. При ошибке сбрасывает клиент пользователя.
