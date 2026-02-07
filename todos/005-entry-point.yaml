@@ -1,7 +1,7 @@
 title: Создать точку входа workers/bot/__main__.py
-status: open
+status: done
 created_at: 07.02.2026
-completed_at: null
+completed_at: 07.02.2026
 
 description: |
   Точка входа бота по паттерну royalestate_bot.
@@ -24,4 +24,9 @@ recommendation: |
     7. app.run()
   - Обработка исключений на верхнем уровне (try-except в __main__)
 
-solution: null
+solution: |
+  Создан workers/bot/__main__.py по паттерну royalestate_bot.
+  Загружает .env через python-dotenv, читает BOT_TOKEN/BOT_DB_URL/REDIS_URL,
+  инициализирует BotApplication с data/ файлами, создаёт AgentClient,
+  SendToAgentAction и TextMessageHandler, регистрирует handler для text,
+  запускает polling. try-except на верхнем уровне в if __name__ == "__main__".
