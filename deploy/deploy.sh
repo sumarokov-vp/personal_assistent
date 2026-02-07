@@ -7,6 +7,15 @@ NC='\033[0m'
 
 cd "$(dirname "$0")/.."
 
+echo -e "${YELLOW}Running linters...${NC}"
+uv run ruff check .
+uv run mypy .
+echo -e "${GREEN}Linters passed!${NC}"
+
+echo -e "${YELLOW}Running tests...${NC}"
+uv run pytest tests/ -v
+echo -e "${GREEN}Tests passed!${NC}"
+
 echo -e "${YELLOW}Stopping old container...${NC}"
 docker compose -f deploy/docker-compose.yml down || true
 
