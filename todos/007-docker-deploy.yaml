@@ -1,7 +1,7 @@
 title: Настроить Docker-деплой на локальный сервер
-status: open
+status: done
 created_at: 07.02.2026
-completed_at: null
+completed_at: 07.02.2026
 
 description: |
   Деплой на текущий сервер через Docker.
@@ -31,4 +31,16 @@ recommendation: |
     - docker compose up -d
     - docker compose logs -f
 
-solution: null
+solution: |
+  Создано 3 файла по паттерну royalestate_bot:
+
+  1. deploy/Dockerfile — python:3.13-slim, извлечение зависимостей из pyproject.toml
+     в requirements.txt через tomllib (обход editable path из [tool.uv.sources]),
+     pip install, копирование src/, workers/, data/, PYTHONPATH=/app.
+
+  2. deploy/docker-compose.yml — сервис bot с network_mode: host (доступ к локальным
+     PostgreSQL и Redis), env_file: ../.env, restart: unless-stopped,
+     volume mount /home/sumarokov/.claude:ro для авторизации Claude SDK.
+
+  3. deploy/deploy.sh — скрипт деплоя: down, build --no-cache, up -d, logs -f.
+     Сделан исполняемым (chmod +x).
