@@ -68,7 +68,14 @@ class AgentClient:
         self._session_registry.set_context(user_id, chat_id, self._bot)
 
         if client._transport is None:
-            await client.connect()
+            logger.info("Connecting SDK client for user=%s...", user_id)
+            try:
+                await client.connect()
+            except Exception:
+                logger.exception("SDK connect failed for user=%s", user_id)
+                await self._reset_client(user_id)
+                raise
+            logger.info("SDK client connected for user=%s", user_id)
 
         await client.query(text)
 

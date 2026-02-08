@@ -11,6 +11,6 @@ services:
       - ../.env
     restart: unless-stopped
     volumes:
-      - ${HOME}/.claude:${APP_HOME:-/home/sumarokov}/.claude:ro
+      - ${HOME}/.claude:${APP_HOME:-/home/sumarokov}/.claude
       - ${HOME}/pyinfra_dotfiles/dotfiles/claude:${APP_HOME:-/home/sumarokov}/pyinfra_dotfiles/dotfiles/claude
       - ${HOME}/obsidian_wiki:${APP_HOME:-/home/sumarokov}/obsidian_wiki
