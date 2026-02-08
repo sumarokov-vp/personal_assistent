@@ -55,7 +55,15 @@ uv run python -m workers.bot
 deploy/deploy.sh
 ```
 
-Docker Compose монтирует `~/.claude` для доступа к сессии Claude Code.
+Docker Compose монтирует `~/.claude:ro` (read-only) для доступа к сессии Claude Code.
+
+## Кастомные инструменты (Tool Use)
+
+Бот поддерживает кастомные инструменты через MCP-сервер. Claude может вызывать их во время обработки запроса.
+
+### send_file
+
+Отправляет файл пользователю в Telegram как документ. Используется скиллом `/research` — после завершения ресерча результат автоматически отправляется в чат.
 
 ## Структура проекта
 
@@ -65,8 +73,11 @@ workers/bot/
 src/
 ├── agent/
 │   ├── client.py              # Обёртка над Claude Agent SDK
-│   └── protocols/
-│       └── i_agent_client.py  # Интерфейс клиента
+│   ├── protocols/
+│   │   └── i_agent_client.py  # Интерфейс клиента
+│   └── tools/
+│       ├── registry.py        # SessionRegistry — контекст сессии для tools
+│       └── send_file.py       # Отправка файлов в Telegram
 └── chat/
     ├── handlers/
     │   └── text_message_handler.py   # Обработчик текстовых сообщений
