@@ -1,5 +1,6 @@
 import asyncio
 import threading
+from logging import getLogger
 
 from claude_agent_sdk import (
     AssistantMessage,
@@ -7,7 +8,12 @@ from claude_agent_sdk import (
     ClaudeSDKClient,
     ResultMessage,
     TextBlock,
+    ThinkingBlock,
+    ToolResultBlock,
+    ToolUseBlock,
 )
+
+logger = getLogger(__name__)
 
 
 class AgentClient:
@@ -51,7 +57,21 @@ class AgentClient:
                 for block in message.content:
                     if isinstance(block, TextBlock):
                         response_parts.append(block.text)
+                    elif isinstance(block, ThinkingBlock):
+                        preview = block.thinking[:200]
+                        logger.info("Thinking: %s", preview)
+                    elif isinstance(block, ToolUseBlock):
+                        logger.info("Tool call: %s", block.name)
+                    elif isinstance(block, ToolResultBlock):
+                        status = "error" if block.is_error else "ok"
+                        logger.info("Tool result: %s", status)
             elif isinstance(message, ResultMessage):
+                logger.info(
+                    "Result: turns=%s, cost=$%.4f, duration=%dms",
+                    message.num_turns,
+                    message.total_cost_usd,
+                    message.duration_ms,
+                )
                 if message.is_error:
                     await self._reset_client(user_id)
                     raise RuntimeError(f"Claude SDK error: {message.result}")
