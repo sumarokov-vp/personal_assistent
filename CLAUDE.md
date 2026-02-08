@@ -44,7 +44,7 @@ deploy/
 - Без отдельного ANTHROPIC_API_KEY — SDK использует существующую авторизацию на машине
 - cwd для ClaudeAgentOptions: Path.home() (домашняя директория пользователя)
 - SDK автоматически подхватывает: CLAUDE.md, skills/, commands/, scripts/, settings.json
-- В Docker: volume mount ~/.claude:ro (read-only, включая session-env для авторизации)
+- **КРИТИЧНО:** В Docker volume mount `~/.claude` должен быть **read-write** (без `:ro`). CLI subprocess пишет сессии, todos и логи в эту директорию — при read-only CLI зависает на initialize и бот не работает.
 
 ## Переменные окружения (.env)
 
