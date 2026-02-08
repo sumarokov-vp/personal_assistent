@@ -3,12 +3,14 @@ services:
     build:
       context: ..
       dockerfile: deploy/Dockerfile
+      args:
+        APP_USER: ${APP_USER:-sumarokov}
     container_name: personal_assistant_bot
     network_mode: host
     env_file:
       - ../.env
     restart: unless-stopped
     volumes:
-      - /home/sumarokov/.claude:/home/sumarokov/.claude
-      - /home/sumarokov/pyinfra_dotfiles/dotfiles/claude:/home/sumarokov/pyinfra_dotfiles/dotfiles/claude
-      - /home/sumarokov/obsidian_wiki:/home/sumarokov/obsidian_wiki
+      - ${HOME}/.claude:${APP_HOME:-/home/sumarokov}/.claude:ro
+      - ${HOME}/pyinfra_dotfiles/dotfiles/claude:${APP_HOME:-/home/sumarokov}/pyinfra_dotfiles/dotfiles/claude
+      - ${HOME}/obsidian_wiki:${APP_HOME:-/home/sumarokov}/obsidian_wiki

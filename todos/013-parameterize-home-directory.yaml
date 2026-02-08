@@ -1,0 +1,26 @@
+title: Параметризировать захардкоженный путь /home/sumarokov
+status: done
+created_at: 08.02.2026
+completed_at: 08.02.2026
+
+description: |
+  В нескольких файлах захардкожен путь /home/sumarokov, что раскрывает имя пользователя
+  на сервере. Репозиторий публичный. Затронутые файлы:
+  - src/agent/client.py:41 — cwd="/home/sumarokov"
+  - deploy/docker-compose.yml — volume mounts
+  - deploy/Dockerfile:22 — useradd --home-dir /home/sumarokov
+  - CLAUDE.md — упоминание пути в документации
+
+recommendation: |
+  Использовать переменную окружения (например HOME_DIR или APP_USER) вместо хардкода:
+  - src/agent/client.py: Path.home() или os.environ для cwd
+  - deploy/docker-compose.yml: переменная в .env для docker-compose
+  - deploy/Dockerfile: ARG для username/homedir
+  - CLAUDE.md: заменить на плейсхолдер или generic описание
+
+solution: |
+  Параметризированы все захардкоженные пути:
+  - client.py: Path.home() вместо хардкода
+  - docker-compose.yml: переменные $HOME и $APP_HOME с дефолтами
+  - Dockerfile: ARG APP_USER с дефолтом
+  - CLAUDE.md: обновлена документация

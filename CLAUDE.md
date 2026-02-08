@@ -38,9 +38,9 @@ deploy/
 
 - Авторизация через подписку Claude Code (сессии в ~/.claude/session-env)
 - Без отдельного ANTHROPIC_API_KEY — SDK использует существующую авторизацию на машине
-- cwd для ClaudeAgentOptions: /home/sumarokov
+- cwd для ClaudeAgentOptions: Path.home() (домашняя директория пользователя)
 - SDK автоматически подхватывает: CLAUDE.md, skills/, commands/, scripts/, settings.json
-- В Docker: volume mount ~/.claude (включая session-env для авторизации)
+- В Docker: volume mount ~/.claude:ro (read-only, включая session-env для авторизации)
 
 ## Переменные окружения (.env)
 

@@ -1,6 +1,7 @@
 import asyncio
 import threading
 from logging import getLogger
+from pathlib import Path
 from typing import Any
 
 import telebot
@@ -38,7 +39,7 @@ class AgentClient:
     def _get_or_create_client(self, user_id: int) -> ClaudeSDKClient:
         if user_id not in self._clients:
             options = ClaudeAgentOptions(
-                cwd="/home/sumarokov",
+                cwd=str(Path.home()),
                 permission_mode="bypassPermissions",
                 system_prompt={"type": "preset", "preset": "claude_code"},
                 tools={"type": "preset", "preset": "claude_code"},

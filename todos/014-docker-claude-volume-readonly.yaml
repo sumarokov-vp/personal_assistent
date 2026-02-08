@@ -1,0 +1,17 @@
+title: Добавить :ro к volume mount .claude в docker-compose
+status: done
+created_at: 08.02.2026
+completed_at: 08.02.2026
+
+description: |
+  В deploy/docker-compose.yml директория .claude смонтирована без флага :ro (read-only).
+  Контейнер имеет полный доступ на запись к Claude session credentials на хосте.
+  Это было отмечено ещё в todos/007-docker-deploy.yaml, но не реализовано.
+
+recommendation: |
+  Добавить :ro к volume mount .claude в deploy/docker-compose.yml:
+    - /home/sumarokov/.claude:/home/sumarokov/.claude:ro
+
+solution: |
+  Добавлен флаг :ro к volume mount .claude в docker-compose.yml.
+  Реализовано совместно с задачей 013 (параметризация путей).
