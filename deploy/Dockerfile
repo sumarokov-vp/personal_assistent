@@ -1,6 +1,6 @@
 FROM python:3.13-slim
 
-RUN apt-get update && apt-get install -y --no-install-recommends curl jq && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends curl jq git openssh-client && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -22,5 +22,9 @@ ENV PYTHONPATH=/app
 ARG APP_USER=sumarokov
 RUN useradd --create-home --home-dir /home/${APP_USER} --uid 1000 ${APP_USER}
 USER ${APP_USER}
+
+RUN mkdir -p /home/${APP_USER}/.ssh && chmod 700 /home/${APP_USER}/.ssh && \
+    printf "Host github-obsidian\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/personal_assistant\n  StrictHostKeyChecking accept-new\n" > /home/${APP_USER}/.ssh/config && \
+    chmod 600 /home/${APP_USER}/.ssh/config
 
 CMD ["python", "-m", "workers.bot"]
