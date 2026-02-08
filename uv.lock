@@ -44,9 +44,13 @@ wheels = [
 [[package]]
 name = "bot-framework"
 version = "0.3.0"
-source = { editable = "../bot_framework" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8b/1c/b5c9a9b005b863985c9e13eedd2a932d628bb65d0781e0cffaf953f740d7/bot_framework-0.3.0.tar.gz", hash = "sha256:48e695a363d80029151f166f48c37c65a3a546c2afc2edbca48523505a51d3d9", size = 76167, upload-time = "2026-02-06T05:49:11.997Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2c/ea/3dc843ab8ed6051823b294926e70b8d3ff03e47dff33e8c466c85a6a5ff4/bot_framework-0.3.0-py3-none-any.whl", hash = "sha256:e4ef065ce15ee8788d3d1fe801f778f13718194f2aad1fc93c5b188679161a3d", size = 102042, upload-time = "2026-02-06T05:49:14.224Z" },
 ]
 
 [package.optional-dependencies]
@@ -55,26 +59,6 @@ all = [
     { name = "pytelegrambotapi" },
     { name = "redis" },
     { name = "yoyo-migrations" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "bot-framework", extras = ["telegram", "postgres", "redis"], marker = "extra == 'all'" },
-    { name = "psycopg", extras = ["binary"], marker = "extra == 'postgres'", specifier = ">=3.2.0" },
-    { name = "pydantic", specifier = ">=2.11.0" },
-    { name = "pytelegrambotapi", marker = "extra == 'telegram'", specifier = ">=4.29.0" },
-    { name = "redis", marker = "extra == 'redis'", specifier = ">=6.0.0" },
-    { name = "yoyo-migrations", marker = "extra == 'postgres'", specifier = "==9.0.0" },
-]
-provides-extras = ["telegram", "postgres", "redis", "all"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "import-linter", specifier = ">=2.9" },
-    { name = "mypy", specifier = ">=1.18.2" },
-    { name = "pyright", specifier = ">=1.1.406" },
-    { name = "pytest", specifier = ">=9.0.0" },
-    { name = "ruff", specifier = ">=0.13.3" },
 ]
 
 [[package]]
@@ -624,7 +608,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bot-framework", extras = ["all"], editable = "../bot_framework" },
+    { name = "bot-framework", extras = ["all"], specifier = "==0.3.0" },
     { name = "claude-agent-sdk", specifier = "==0.1.32" },
     { name = "python-dotenv", specifier = "==1.2.1" },
 ]

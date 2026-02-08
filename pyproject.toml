@@ -99,4 +99,3 @@ type = "layers"
 layers = ["src.chat", "src.agent"]
 
 [tool.uv.sources]
-bot-framework = { path = "/home/sumarokov/projects/bot_framework", editable = true }

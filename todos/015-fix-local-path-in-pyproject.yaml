@@ -1,7 +1,7 @@
 title: Убрать локальный путь к bot_framework из pyproject.toml
-status: open
+status: done
 created_at: 08.02.2026
-completed_at: null
+completed_at: 08.02.2026
 
 description: |
   В pyproject.toml (строка ~102) указан локальный путь:
@@ -15,4 +15,6 @@ recommendation: |
   ВАЖНО: Репозиторий smartist-org/bot-framework на GitHub не существует или приватный.
   Перед выполнением нужно опубликовать пакет или создать публичный git-репозиторий.
 
-solution: null
+solution: |
+  Удалена строка bot-framework из [tool.uv.sources] в pyproject.toml.
+  Пакет bot-framework==0.3.0 доступен на PyPI — uv берёт его оттуда автоматически.
