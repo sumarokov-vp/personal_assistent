@@ -17,8 +17,12 @@ workers/bot/
 src/
 ├── agent/
 │   ├── client.py            # Обёртка над Claude Agent SDK (query/ClaudeSDKClient)
-│   └── protocols/
-│       └── i_agent_client.py
+│   ├── protocols/
+│   │   └── i_agent_client.py
+│   └── tools/
+│       ├── __init__.py
+│       ├── registry.py          # SessionRegistry — контекст сессии для tools
+│       └── send_file.py         # Tool: отправка файлов в Telegram
 ├── chat/
 │   ├── handlers/
 │   │   └── text_message_handler.py   # Обработчик текстовых сообщений
@@ -69,6 +73,28 @@ REDIS_URL=redis://localhost:6379/4
 - Docker: `deploy/deploy.sh`
 - Redis база: 4
 
+## Tool Use (кастомные инструменты)
+
+Claude Agent SDK поддерживает кастомные инструменты через MCP-сервер. Инструменты позволяют LLM выполнять действия в контексте Telegram-бота.
+
+### Архитектура
+
+- `SessionRegistry` хранит контекст сессии (chat_id, bot instance) по user_id
+- Перед каждым query контекст устанавливается через `set_context()`
+- Tool-функции получают контекст через `get_current_context()`
+- MCP-сервер создаётся один раз в `__main__.py` и передаётся в `AgentClient`
+
+### Доступные инструменты
+
+- **send_file** — отправляет файл пользователю в Telegram как документ. Принимает `file_path` (абсолютный путь к файлу на диске). Используется скиллом `/research` для отправки результатов ресерча.
+
+### Добавление нового инструмента
+
+1. Создать файл `src/agent/tools/my_tool.py`
+2. Определить async-функцию с декоратором `@tool(name, description, input_schema)`
+3. Добавить `init_*()` для инициализации (передача registry)
+4. Зарегистрировать в MCP-сервере в `workers/bot/__main__.py`
+
 ## MVP Scope
 
 - Приём текстовых сообщений от пользователя в Telegram
@@ -76,3 +102,4 @@ REDIS_URL=redis://localhost:6379/4
 - Возврат ответа Claude обратно в Telegram
 - Авторизация через bot_framework (роли)
 - /start меню через bot_framework
+- Отправка файлов пользователю через send_file tool
