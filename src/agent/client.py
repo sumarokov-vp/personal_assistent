@@ -44,7 +44,9 @@ class AgentClient:
                 system_prompt={"type": "preset", "preset": "claude_code"},
                 tools={"type": "preset", "preset": "claude_code"},
                 settings='{"enabledPlugins": {}}',
+                # user/project/local нужны чтобы SDK подхватывал skills из ~/.claude/
                 setting_sources=["user", "project", "local"],
+                stderr=lambda line: logger.debug("CLI stderr: %s", line),
             )
             if self._mcp_server is not None:
                 options.mcp_servers = {"bot-tools": self._mcp_server}
