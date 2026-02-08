@@ -99,4 +99,4 @@ type = "layers"
 layers = ["src.chat", "src.agent"]
 
 [tool.uv.sources]
-bot-framework = { path = "/home/sumarokov/projects/bot_framework", editable = true }
+bot-framework = { git = "https://github.com/smartist-org/bot-framework.git", tag = "v0.3.0" }
