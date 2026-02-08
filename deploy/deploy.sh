@@ -16,13 +16,19 @@ echo -e "${YELLOW}Running tests...${NC}"
 uv run pytest tests/ -v
 echo -e "${GREEN}Tests passed!${NC}"
 
-echo -e "${YELLOW}Stopping old container...${NC}"
-docker compose -f deploy/docker-compose.yml down || true
 
 echo -e "${YELLOW}Building image (no cache)...${NC}"
 docker compose -f deploy/docker-compose.yml build
 
+echo -e "${YELLOW}Stopping old container...${NC}"
+docker compose -f deploy/docker-compose.yml down || true
+
 echo -e "${YELLOW}Starting new container...${NC}"
 docker compose -f deploy/docker-compose.yml up -d
+
+sleep 5
+
+docker compose -f deploy/docker-compose.yml logs
+
 
 echo -e "${GREEN}Deploy completed!${NC}"
