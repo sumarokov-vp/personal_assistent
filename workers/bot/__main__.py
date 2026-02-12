@@ -10,6 +10,7 @@ from src.agent.client import AgentClient
 from src.agent.tools.registry import SessionRegistry
 from src.agent.tools.send_file import init_send_file, send_file
 from src.chat.actions.send_to_agent_action import SendToAgentAction
+from src.chat.handlers.clear_command_handler import ClearCommandHandler
 from src.chat.handlers.text_message_handler import TextMessageHandler
 
 logger = getLogger(__name__)
@@ -62,10 +63,22 @@ def main() -> None:
         message_service=message_service,
     )
 
+    clear_handler = ClearCommandHandler(
+        agent_client=agent_client,
+        message_service=message_service,
+        role_repo=app.role_repo,
+    )
+
     text_handler = TextMessageHandler(
         send_to_agent_action=send_to_agent_action,
         message_service=message_service,
         role_repo=app.role_repo,
+    )
+
+    app.core.message_handler_registry.register(
+        handler=clear_handler,
+        commands=["clear"],
+        content_types=["text"],
     )
 
     app.core.message_handler_registry.register(

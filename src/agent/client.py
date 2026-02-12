@@ -54,6 +54,12 @@ class AgentClient:
             self._clients[user_id] = ClaudeSDKClient(options)
         return self._clients[user_id]
 
+    def reset_client(self, user_id: int) -> None:
+        future = asyncio.run_coroutine_threadsafe(
+            self._reset_client(user_id), self._loop
+        )
+        future.result()
+
     def send_message(self, user_id: int, chat_id: int, text: str) -> str:
         future = asyncio.run_coroutine_threadsafe(
             self._send_message_async(user_id, chat_id, text), self._loop
